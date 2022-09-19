@@ -1,39 +1,65 @@
 import re
 import pandas as pd
 
-def prepro(data):
-    pattern = '\d{1,2}/\d{1,2}/\d{2},\s\d{1,2}:\d{2}\s\w{2}\s-\s'
-    messages = re.split(pattern, data)[1:]
-    patterns = '\d{1,2}/\d{1,2}/\d{2},\s\d{1,2}:\d{2}\s\w{2}'
-    dates = re.findall(patterns, data)
-    df = pd.DataFrame({'user_msg': messages, 'msg_date': dates})
-    df['msg_date'] = pd.to_datetime(df['msg_date'], format='%m/%d/%y, %H:%M %p')
-    df.rename(columns={'msg_date': 'date'}, inplace=True)
-
-    users = []
-    messages = []
-    for message in df['user_msg']:
-        entry = re.split('([\w\W]+?):\s', message)
-        if entry[1:]:  # user name
-            users.append(entry[1])
-            messages.append(" ".join(entry[2:]))
+def prepro():
+    def date_time(s):
+        pattern = '^([0-9]+)(\/)([0-9]+)(\/)([0-9]+), ([0-9]+):([0-9]+)[ ]?(AM|PM|am|pm)? -'
+        result = re.match(pattern, s)
+        if result:
+            return True
         else:
-            users.append('group notification')
-            messages.append(entry[0])
+            pattern = '\d{1,2}/\d{1,2}/\d{2,4},\s\d{1,2}:\d{2}\s-\s'
+            result = re.match(pattern, s)
+            if result:
+                return True
+            else:
+                return False
 
-    df['users'] = users
-    df['message'] = messages
+    def getDatapoint(line):
+        splitline = line.split(' - ')
+        dateTime = splitline[0]
+        date, time = dateTime.split(", ")
+        message = " ".join(splitline[1:])
+        splitmessage = message.split(": ")
+        if splitmessage[1:]:
+            author = splitmessage[0]
+            message = " ".join(splitmessage[1:])
+        else:
+            author = 'group_notification'
+            message = splitmessage[0]
+        return date, time, author, message
 
-    df.drop(columns=['user_msg'], inplace=True)
+    data = []
+    fp = open('sample.txt', 'r', encoding='utf-8');
+    fp.readline()
+    messageBuffer = []
+    date, time, user = None, None, None
+    while True:
+        line = fp.readline()
+        if not line:
+            break
+        line = line.strip()
+        if date_time(line):
+            if len(messageBuffer) > 0:
+                data.append([date, time, user, ' '.join(messageBuffer)])
+            messageBuffer.clear()
+            date, time, user, message = getDatapoint(line)
+            messageBuffer.append(message)
+        else:
+            messageBuffer.append(line)
+    df = pd.DataFrame(data, columns=["date", 'time', 'user', 'message'])
+    df['date'] = pd.to_datetime(df['date'])
+    df['time'] = pd.to_datetime(df['time'])
+    df.head()
     # adding year
+    df['only_date'] = df['date'].dt.date
     df['year'] = df['date'].dt.year
+    df['month_num'] = df['date'].dt.month
     df['month'] = df['date'].dt.month_name()
     df['day'] = df['date'].dt.day
-    df['hour'] = df['date'].dt.hour
-    df['minute'] = df['date'].dt.minute
-    df['month_num'] = df['date'].dt.month
-    df['only_date'] = df['date'].dt.date
     df['day_name'] = df['date'].dt.day_name()
+    df['hour'] = df['time'].dt.hour
+    df['minute'] = df['time'].dt.minute
 
     period = []
     for hour in df[['day_name', 'hour']]['hour']:

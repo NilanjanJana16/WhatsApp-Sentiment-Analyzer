@@ -12,7 +12,7 @@ from wordcloud import WordCloud
 
 def fetch_stats(selected_user, df):
     if selected_user != 'Overall':
-        df = df[df['users'] == selected_user]
+        df = df[df['user'] == selected_user]
 
     # fetch number of messages
     num_messages = df.shape[0]
@@ -23,32 +23,34 @@ def fetch_stats(selected_user, df):
         words.extend(message.split())
 
     # fetch number of media messages
-    media_msg = df[df['message'] == '<Media omitted>\n'].shape[0]
+    num_media_messages = df[df['message'] == '<Media omitted>'].shape[0]
 
     # fetch urls
     links = []
     for message in df['message']:
         links.extend(extractor.find_urls(message))
 
-    return num_messages, len(words), media_msg, len(links)
+    return num_messages, len(words), num_media_messages, len(links)
 
 
 def most_busy_users(df):
-    x = df['users'].value_counts()
-    df = round((df['users'].value_counts() / df.shape[0]) * 100, 2).reset_index().rename(
-        columns={'index': 'users', 'users': 'precent'})
-    return x, df
+    x = df['user'].value_counts().head()
+    df = round((df['user'].value_counts() / df.shape[0]) * 100, 2).reset_index().rename(
+        columns={'index': 'name', 'user': 'percent'})
+    return x,df
 
 
-def create_wordcloud(selected_user, df):
-    if selected_user != 'Overall':
-        df = df[df['users'] == selected_user]
+
+def create_wordcloud(selected_user,df):
 
     f = open('stop_hinglish.txt', 'r')
     stop_words = f.read()
 
-    temp = df[df['users'] != 'group notification']
-    temp = temp[temp['message'] != '<Media Omitted>\n']
+    if selected_user != 'Overall':
+        df = df[df['user'] == selected_user]
+
+    temp = df[df['user'] != 'group_notification']
+    temp = temp[temp['message'] != '<Media omitted>\n']
 
     def remove_stop_words(message):
         y = []
@@ -63,15 +65,16 @@ def create_wordcloud(selected_user, df):
     return df_wc
 
 
-def most_common_words(selected_user, df):
-    f = open('stop_hinglish.txt', 'r')
+def most_common_words(selected_user,df):
+
+    f = open('stop_hinglish.txt','r')
     stop_words = f.read()
 
     if selected_user != 'Overall':
-        df = df[df['users'] == selected_user]
+        df = df[df['user'] == selected_user]
 
-    temp = df[df['users'] != 'group notification']
-    temp = temp[temp['message'] != '<Media Omitted>\n']
+    temp = df[df['user'] != 'group_notification']
+    temp = temp[temp['message'] != '<Media omitted>\n']
 
     words = []
 
@@ -81,13 +84,13 @@ def most_common_words(selected_user, df):
                 words.append(word)
 
     most_common_df = pd.DataFrame(Counter(words).most_common(20))
-    most_common_df = most_common_df.rename(columns={0: 'words', 1: 'occurences '})
+    most_common_df = most_common_df.rename(columns={0: 'Words', 1: 'Occurences'})
     return most_common_df
 
 
 def emoji_helper(selected_user, df):
     if selected_user != 'Overall':
-        df = df[df['users'] == selected_user]
+        df = df[df['user'] == selected_user]
 
     emojis = []
     for message in df['message']:
@@ -101,9 +104,10 @@ def emoji_helper(selected_user, df):
 
 # monthly timeline
 
-def monthly_timeline(selected_user, df):
+def monthly_timeline(selected_user,df):
+
     if selected_user != 'Overall':
-        df = df[df['users'] == selected_user]
+        df = df[df['user'] == selected_user]
 
     timeline = df.groupby(['year', 'month_num', 'month']).count()['message'].reset_index()
 
@@ -115,41 +119,37 @@ def monthly_timeline(selected_user, df):
 
     return timeline
 
-# daily timeline
-
-def dailytimeline(selected_user, df):
+def daily_timeline(selected_user,df):
 
     if selected_user != 'Overall':
-        df = df[df['users'] == selected_user]
+        df = df[df['user'] == selected_user]
 
     daily_timeline = df.groupby('only_date').count()['message'].reset_index()
 
     return daily_timeline
 
-# activity
-
-def week_activity(selected_user, df):
+def week_activity_map(selected_user,df):
 
     if selected_user != 'Overall':
-        df = df[df['users'] == selected_user]
+        df = df[df['user'] == selected_user]
 
     return df['day_name'].value_counts()
 
-def month_activity(selected_user, df):
+def month_activity_map(selected_user,df):
 
     if selected_user != 'Overall':
-        df = df[df['users'] == selected_user]
+        df = df[df['user'] == selected_user]
 
     return df['month'].value_counts()
 
-def activity_heatmap(selected_user, df):
+def activity_heatmap(selected_user,df):
 
     if selected_user != 'Overall':
-        df = df[df['users'] == selected_user]
+        df = df[df['user'] == selected_user]
 
-    activity_map = df.pivot_table(index='day_name', columns='period', values='message', aggfunc='count').fillna(0)
+    activity_heatmap = df.pivot_table(index='day_name', columns='period', values='message', aggfunc='count').fillna(0)
 
-    return activity_map
+    return activity_heatmap
 
 
 
