@@ -1,100 +1,127 @@
-# WhatsApp-Chat-Analyzer
 
-<img src="assets/work.gif" width="640" height="328" />
+# WHATSAPP CHAT & SENTIMENT ANALYZER
 
----
-![whatsapp](assets/images/banner.jpeg)
 
-[![GitHub license](https://img.shields.io/github/license/pcsingh/WhatsApp-Chat-Analyzer.svg?logo=github)](https://github.com/pcsingh/WhatsApp-Chat-Analyzer/blob/master/LICENSE) [![GitHub stars](https://img.shields.io/github/stars/pcsingh/WhatsApp-Chat-Analyzer.svg?logo=github)](https://github.com/pcsingh/WhatsApp-Chat-Analyzer/stargazers) [![GitHub forks](https://img.shields.io/github/forks/pcsingh/WhatsApp-Chat-Analyzer.svg?logo=github&color=teal)](https://github.com/pcsingh/WhatsApp-Chat-Analyzer/network/members) [![GitHub top language](https://img.shields.io/github/languages/top/pcsingh/WhatsApp-Chat-Analyzer?color=yellow&logo=python)](https://github.com/pcsingh/WhatsApp-Chat-Analyzer)
 
----
+WhatsApp-Analyzer is a statistical analysis tool for WhatsApp chats. Working on the chat files that can be exported from WhatsApp it generates various plots showing, for example, which another participant a user responds to the most. We propose to employ dataset manipulation techniques to have a better understanding of WhatsApp chat present in our phones. This also shows the sentiment of the group as whole and has drop down to select the analysis for a particular user in the group.
 
-> **You can view the working project [here](https://whatsapp-chat-analyzer.herokuapp.com/).**
 
-[![WhatsApp Chat Analyzer](https://img.shields.io/badge/WhatsApp_Chat-Analyzer-teal.svg?colorA=teal&colorB=orange&style=for-the-badge)](https://github.com/pcsingh/WhatsApp-Chat-Analyzer/) [![IoT](https://img.shields.io/badge/Data-Science-teal.svg?colorA=blue&colorB=red&style=for-the-badge)](https://github.com/pcsingh/WhatsApp-Chat-Analyzer/)
 
-WhatsApp chat Analyzer is a WebApp where anyone either tech or non-tech person can analyze their WhatsApp chat data. With this, you can get information such as Which person is active in the chat? Generally, What time the other person is free for conversation? Which one member from the group is more engaged in chat? Which word is most used by a particular member in the group?
 
-And many other insights you can get from this Analyzer. Anyone obviously, who has WhatsApp account can use this WebApp. He/She can export their chat either group or individual in text format (without media) and upload it in the WebApp. It can handle both English and Portuguese format of WhatsApp chat.
+## Table of Contents
 
-Check it [here](https://education.github.com/pack/gallery) under Student gallery by GitHub Education :tada:.
+    1. Overview
+    2. Dataset
+    3. Libraries
+    4. Analysis
+    5. WhatsApp Chat Sentiment Analysis
 
-**Important: Don't worry, none of your data is stored.**
+### Overview-
+#
+The initial part of the project is to understand implementation and usage of various python- built modules. These various modules provide better code representation and user understandability. The following libraries are used such as numpy, scipy pandas, csv, sklearn, matplotlib, sys, re, emoji, nltk seaborn etc. this analysis proves to be better input to machine learning models which essentially explore the chat data. These models require proper learning instances which provides better accuracy for these models. Our project ensures to provide an in-depth exploratory data analysis on various types of WhatsApp chats.
 
-## Getting Started
+### Dataset- 
+#
+    1. The first step is Data Retrieval & Preprocessing, that is to gather the data. WhatsApp allows you to export your chats through a .txt format.        
+![image](https://user-images.githubusercontent.com/96487546/229452278-f7cef44f-b758-4cbf-96c7-2d6d783b536c.png)
 
-[![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/pcsingh/WhatsApp-Chat-Analyzer?logo=github)](https://whatsapp-chat-analyzer.herokuapp.com/) [![GitHub commit activity](https://img.shields.io/github/commit-activity/m/pcsingh/WhatsApp-Chat-Analyzer?color=bluevoilet&logo=github)](https://github.com/pcsingh/WhatsApp-Chat-Analyzer/commits/) [![GitHub repo size](https://img.shields.io/github/repo-size/pcsingh/WhatsApp-Chat-Analyzer?logo=github)](https://whatsapp-chat-analyzer.herokuapp.com/)
+    2. Go to the respective chat, which you want to export!
 
-**1.** Fork [this](https://github.com/pcsingh/WhatsApp-Chat-Analyzer/) repository.
-Click on the <a href="https://github.com/pcsingh/WhatsApp-Chat-Analyzer/"><img src="https://img.icons8.com/ios/24/000000/code-fork.png"></a> symbol at the top right corner.
+    3. Tap on options, click on More, and Export Chat.
+![image](https://user-images.githubusercontent.com/96487546/229452507-be65b927-3b9b-4837-be52-c4683e284ee9.png)
 
-**2.** Clone the forked repository.
+    4. I will be Exporting Without Media.
+        NOTE:
+        Without media: exports about **40k messages **
+        With media: exports about 10k messages along with pictures/videos
+        While exporting data, avoid including media files because if the number of media files is greater than certain figure then not all the media files are exported.
 
+![image](https://user-images.githubusercontent.com/96487546/229452983-c2ce5ccc-eeb0-4a00-a092-fb5457095935.png)
+
+### Libraries
+    We will be using:
+    1.	Regex (re) to extract and manipulate strings based on specific patterns.
+        •	References:
+            a)	Regex - Python Docs
+            b)	Regex cheatsheet
+            c)	Regex Test - live
+            d)	Datetime Format
+    2.	pandas for analysis.
+    3.	matlotlib and seaborn for visualization.
+    4.	emoji to deal with emojis.
+        •	References:
+            a)	Python Docs
+            b)	Emoji
+            c)	EMOJI CHEAT SHEET
+    5.	wordcloud for the most used words.
+    6.	Sentiment Analyzer Vader
+
+
+
+### Analysis
+
+    1.Overall frequency of total messages on the group.
+    2. Most active days.
+    3. Most active users on the group.
+    4. Most used emojis.
+    5. Most active hours and days.
+        •	Heatmaps of weekdays and months.
+        •	Most active hours, weekdays, and months.
+    6. Most used words – WordCloud
+
+
+    
+
+### WhatsApp Chat Sentiment Analysis-
+
+    Model: Vader Sentiment Intensity Analyzer
+    VADER (Valence Aware Dictionary and Sentiment Reasoner) is a lexicon and rule-based sentiment analysis tool that is specifically attuned to sentiments expressed in social media. 
+    It is designed to accurately analyze sentiment in text that is often difficult for other sentiment analysis tools, such as slang, emojis, and emoticons.
+
+
+
+
+    
+    
+## Installation
+
+Downlaod the Github repo. 
+
+Then copy the below command in the terminal and run to install the requirements for the project.
 ```bash
-git clone https://github.com/<your-github-username>/WhatsApp-Chat-Analyzer
+  !pip install -r requirements.txt 
+```
+After installing the requirements run 
+```bash
+    streamlit run app.py
 ```
 
-**3.** Navigate to the project directory.
-
-```bash
-cd WhatsApp-Chat-Analyzer
-```
-
-**4.** Create a new branch.
-
-```bash
-git checkout -b <your_branch_name>
-```
-
-**5.** Make changes in source code.
-
-**6.** Stage your changes and commit
-
-```bash
-#Add changes to Index
-git add .
-
-#Commit to the local repo
-git commit -m "<your_commit_message>"
-```
-
->CAUTION: Synch up your local repo with [original repo](https://github.com/pcsingh/WhatsApp-Chat-Analyzer) (Upstream) before pushing your commits.
->This avoids unnecessary conflicts during the merge.
-
-**7.** Push your local commits to the remote repo.
-
-```bash
-git push -u origin <your_branch_name>
-```
-
-**8.** Create a [PR](https://help.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request) !
-
-**9.** **Congratulations!** Sit and relax, you've made your contribution to [WhatsApp Chat Analyzer](https://whatsapp-chat-analyzer.herokuapp.com/).
-
-**NOTE**: **Feel free to [open issues](https://github.com/pcsingh/WhatsApp-Chat-Analyzer/issues/new/choose)**.
 
 
-## Run on Local System
+    
+## Images
 
-[![GitHub open issues](https://img.shields.io/github/issues/pcsingh/WhatsApp-Chat-Analyzer?logo=github)](https://github.com/pcsingh/WhatsApp-Chat-Analyzer/issues) [![GitHub contributors](https://img.shields.io/github/contributors/pcsingh/WhatsApp-Chat-Analyzer?logo=github)](https://github.com/pcsingh/WhatsApp-Chat-Analyzer/graphs/contributors) [![Premchandra Singh](https://img.shields.io/badge/Author-@pcsingh-gray.svg?colorA=gray&colorB=dodgerblue&logo=github)](https://github.com/pcsingh/)
+    1. Overall Statistics
 
-- Install packages given in `requirements.txt`.
+![image](https://user-images.githubusercontent.com/96487546/229454462-c2fdc22a-490c-418f-a747-86d01603b091.png)
 
-```bash
-pip install -r requirements.txt
-```
+    2. Monthly & Daily Timeline
 
-- Run the below command to start your local server.
+![image](https://user-images.githubusercontent.com/96487546/229454737-a5fb8873-fd68-4f77-b1f0-c8bf81180746.png)
 
-```bash
-streamlit run app.py
-```
+    3. Heatmaps
 
-> **_Need help?_** 
-> **_Feel free to contact me @ [premchandra.singh.5268@gmail.com](mailto:premchandra.singh.5268@gmail.com?Subject=WhatsApp_Chat_Analyzer)_**
+![image](https://user-images.githubusercontent.com/96487546/229454897-d1ec214a-d267-4508-ba15-bca8299d71f9.png)
 
----
+    4. Wordcloud and emojis
 
-[![built with love](https://forthebadge.com/images/badges/built-with-love.svg)](https://www.linkedin.com/in/premchandra-singh/) [![smile please](https://forthebadge.com/images/badges/makes-people-smile.svg)](https://github.com/pcsingh/)
+![image](https://user-images.githubusercontent.com/96487546/229455106-0fe6ff88-4f75-4970-b1a9-1520156ff583.png)
+
+![image](https://user-images.githubusercontent.com/96487546/229455125-cedc05ec-e9b8-4c8d-9f4d-89253e7395b9.png)
+
+    5. Sentiment Analysis along with Polarity Scores
+
+![image](https://user-images.githubusercontent.com/96487546/229455314-2032f85e-0e45-4dbd-817b-0971a1f58a04.png)
 
 
+                                                            ### MADE ON STREAMLIT ###
