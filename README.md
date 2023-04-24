@@ -124,4 +124,4 @@ After installing the requirements run
 ![image](https://user-images.githubusercontent.com/96487546/229455314-2032f85e-0e45-4dbd-817b-0971a1f58a04.png)
 
 
-                                                            ### MADE ON STREAMLIT ###
+                                     ### MADE ON STREAMLIT ###
